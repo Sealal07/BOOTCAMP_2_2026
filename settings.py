@@ -9,6 +9,12 @@ TILE_SIZE = 64
 PLAYER_WIDTH = 64
 PLAYER_HEIGHT = 64
 
+PLAYER_SPEED = 5 # скорость персонажа
+
+GRAVITY = 0.6 # сила гравитации
+JUMP_FORCE = -16 # сила прыжка
+
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # print(BASE_DIR)
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets')
@@ -18,4 +24,7 @@ GROUND_1_IMG = os.path.join(ASSETS_DIR, 'tiles', 'ground.png')
 GROUND_2_IMG = os.path.join(ASSETS_DIR, 'tiles', 'ground2.png')
 PLATFORM_IMG = os.path.join(ASSETS_DIR, 'tiles', 'block.png')
 BLOCK_ACTIVE_IMG = os.path.join(ASSETS_DIR, 'tiles', 'block_active.png')
+PLAYER_STATIC = os.path.join(ASSETS_DIR, 'player', 'player_static.png')
 
+BLOCK_ACTIVE_EMPTY = os.path.join(ASSETS_DIR, 'tiles', 'block_empty.png')
+COIN_IMG = os.path.join(ASSETS_DIR, 'ui', 'coin.png')
