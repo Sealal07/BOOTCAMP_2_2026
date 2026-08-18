@@ -5,7 +5,9 @@ from settings import (
     BLOCK_ACTIVE_IMG,
     PLAYER_STATIC, PLAYER_SPEED,
     PLAYER_WIDTH, PLAYER_HEIGHT,
-    GRAVITY, BLOCK_ACTIVE_EMPTY, COIN_IMG
+    GRAVITY, BLOCK_ACTIVE_EMPTY, COIN_IMG,
+    ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_SPEED, ENEMY_IMG,
+    WIDTH
 )
 
 class Tile(pygame.sprite.Sprite):
@@ -72,3 +74,35 @@ class Player(pygame.sprite.Sprite):
             self.vy = self.vy + GRAVITY
 
         self.rect.x = self.rect.x + self.vx
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+
+        self.image = pygame.image.load(ENEMY_IMG).convert_alpha()
+        self.image = pygame.transform.scale(
+            self.image, (ENEMY_WIDTH, ENEMY_HEIGHT)
+        )
+        self.rect = self.image.get_rect()
+        self.rect.x = x # координата x (расположение врага)
+        self.rect.y = y # координата y (расположение врага)
+
+        self.direction = 1 # направление движения (1-вправо, -1-влево)
+        self.vx = ENEMY_SPEED * self.direction
+
+    def reverse(self):
+        self.direction *= -1
+        self.vx = ENEMY_SPEED * self.direction
+
+    #обновление каждый кадр
+    def update(self):
+        self.rect.x += self.vx
+        if self.rect.right >= WIDTH or self.rect.left <= 0:
+            self.reverse()
+
+
+
+
+
+
+

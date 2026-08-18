@@ -44,9 +44,11 @@ while running:
     level.update()
 
     screen.fill((131, 216, 255)) # rgb
-    level.tiles.draw(screen)
-    level.coins.draw(screen)
-    level.player_group.draw(screen)
+    # level.tiles.draw(screen)
+    # level.coins.draw(screen)
+    # level.enemies.draw(screen)
+    # level.player_group.draw(screen)
+    level.draw(screen)
     score_text = font.render(f'Очки: {level.player.score}',
                              True, (255, 215, 0))
     screen.blit(score_text, (20, 20))

@@ -15,6 +15,10 @@ GRAVITY = 0.6 # сила гравитации
 JUMP_FORCE = -16 # сила прыжка
 
 
+ENEMY_WIDTH = 60
+ENEMY_HEIGHT = 60
+ENEMY_SPEED = 2
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # print(BASE_DIR)
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets')
@@ -28,3 +32,4 @@ PLAYER_STATIC = os.path.join(ASSETS_DIR, 'player', 'player_static.png')
 
 BLOCK_ACTIVE_EMPTY = os.path.join(ASSETS_DIR, 'tiles', 'block_empty.png')
 COIN_IMG = os.path.join(ASSETS_DIR, 'ui', 'coin.png')
+ENEMY_IMG = os.path.join(ASSETS_DIR, 'enemy', 'enemy_static.png')
