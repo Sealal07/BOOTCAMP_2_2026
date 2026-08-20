@@ -7,7 +7,7 @@ from settings import (
     PLAYER_WIDTH, PLAYER_HEIGHT,
     GRAVITY, BLOCK_ACTIVE_EMPTY, COIN_IMG,
     ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_SPEED, ENEMY_IMG,
-    WIDTH
+    WIDTH, PLAYER_RUN, PLAYER_JUMP, PLAYER_DEATH
 )
 
 class Tile(pygame.sprite.Sprite):
@@ -56,10 +56,28 @@ class Coin(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load(PLAYER_STATIC).convert_alpha()
-        self.image = pygame.transform.scale(
-            self.image, (PLAYER_WIDTH, PLAYER_HEIGHT)
+        # подготовка текстур
+        self.img_static = pygame.transform.scale(
+            pygame.image.load(PLAYER_STATIC).convert_alpha(),
+            (PLAYER_WIDTH, PLAYER_HEIGHT)
         )
+        self.img_run = pygame.transform.scale(
+            pygame.image.load(PLAYER_RUN).convert_alpha(),
+            (PLAYER_WIDTH, PLAYER_HEIGHT)
+        )
+        self.img_jump = pygame.transform.scale(
+            pygame.image.load(PLAYER_JUMP).convert_alpha(),
+            (PLAYER_WIDTH, PLAYER_HEIGHT)
+        )
+        self.img_death = pygame.transform.scale(
+            pygame.image.load(PLAYER_DEATH).convert_alpha(),
+            (PLAYER_WIDTH, PLAYER_HEIGHT)
+        )
+        self.image = self.img_static
+
+
+
+
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -68,12 +86,39 @@ class Player(pygame.sprite.Sprite):
         # находится ли персонаж на твердой поверхности
         self.on_ground = False
         self.score = 0
+        self.lives = 3
+
+        self.facing_left = False
+        self.is_dead = False
 
     def update(self):
+        if self.is_dead:
+            self.image = self.img_death
+            return
+
         if not self.on_ground:
             self.vy = self.vy + GRAVITY
 
         self.rect.x = self.rect.x + self.vx
+
+        if self.vx < 0:
+            self.facing_left = True
+        elif self.vx > 0:
+            self.facing_left = False
+
+#         изображение по состоянию
+        if not self.on_ground:
+            current_img = self.img_jump
+        elif self.vx != 0:
+            current_img = self.img_run
+        elif self.vx == 0 and self.on_ground:
+            current_img = self.img_static
+
+        if self.facing_left:
+            self.image = pygame.transform.flip(current_img,
+                                               True, False)
+        else:
+            self.image = current_img
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y):

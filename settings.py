@@ -28,7 +28,14 @@ GROUND_1_IMG = os.path.join(ASSETS_DIR, 'tiles', 'ground.png')
 GROUND_2_IMG = os.path.join(ASSETS_DIR, 'tiles', 'ground2.png')
 PLATFORM_IMG = os.path.join(ASSETS_DIR, 'tiles', 'block.png')
 BLOCK_ACTIVE_IMG = os.path.join(ASSETS_DIR, 'tiles', 'block_active.png')
+
 PLAYER_STATIC = os.path.join(ASSETS_DIR, 'player', 'player_static.png')
+PLAYER_RUN = os.path.join(ASSETS_DIR, 'player', 'player_run.png')
+PLAYER_JUMP = os.path.join(ASSETS_DIR, 'player', 'player_jump.png')
+PLAYER_DEATH = os.path.join(ASSETS_DIR, 'player', 'player_death.png')
+
+
+
 
 BLOCK_ACTIVE_EMPTY = os.path.join(ASSETS_DIR, 'tiles', 'block_empty.png')
 COIN_IMG = os.path.join(ASSETS_DIR, 'ui', 'coin.png')

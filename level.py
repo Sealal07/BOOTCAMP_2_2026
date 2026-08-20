@@ -30,6 +30,8 @@ class Level:
         self.coins = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.player_group = pygame.sprite.GroupSingle()
+        self.game_over = False # флаг проигрыша
+        self.death_time = None # момент гибели персонажа
         self.setup_level()
 
         # ИНИЦИАЛИЗАЦИЯ КАМЕРЫ
@@ -39,6 +41,11 @@ class Level:
         self.camera = Camera(level_pixel_width, level_pixel_height)
 
     def setup_level(self):
+        self.tiles = pygame.sprite.Group()
+        self.coins = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group()
+        self.player_group = pygame.sprite.GroupSingle()
+
         with open('level.txt', 'r') as file:
             self.level_map = [line.strip() for line in file.readlines()]
 
@@ -69,7 +76,14 @@ class Level:
         self.player = Player(100, 500)
         self.player_group.add(self.player)
 
+    def restart(self):
+        self.game_over = False
+        self.setup_level()
+
     def handle_collisions(self):
+        if self.player.is_dead:
+            return
+
     # логика столкновения игрока с твердой землей
         player = self.player
         hits = pygame.sprite.spritecollide(player, self.tiles, False)
@@ -110,16 +124,31 @@ class Level:
                 player.vy = -10 # эффект отскока
                 player.score += 100
             else:
-                player.score = max(0, player.score - 50)
-                player.rect.x = 100
-                player.rect.y = 300
-                player.vy = 0
+                player.lives -= 1
+                if player.lives <= 0:
+                    player.is_dead = True
+                    player.vx = 0
+                    player.vy = 0
+                    self.death_time = pygame.time.get_ticks()
+                    # self.game_over = True
+                else:
+                    player.score = max(0, player.score - 50)
+                    player.rect.x = 100
+                    player.rect.y = 300
+                    player.vy = 0
 
     def update(self):
-        self.player_group.update()
-        self.enemies.update()
-        self.handle_collisions()
-        self.camera.update(self.player)
+        if not self.game_over:
+            self.player_group.update()
+
+            if self.player.is_dead and self.death_time:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.death_time >= 2000:
+                    self.game_over = True
+            else:
+                self.enemies.update()
+                self.handle_collisions()
+                self.camera.update(self.player)
 
     def draw(self, surface):
         # метод отрисовки всех спрайтов со сдвигом камеры
